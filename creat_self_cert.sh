@@ -1,20 +1,20 @@
 #!/bin/bash
 
-IP="192.168.10.11"
-SUBJECT_CA="/C=RU/ST=Russia/L=Moscow/O=himinds/OU=CA/CN=$IP"
-SUBJECT_SERVER="/C=RU/ST=Russia/L=Moscow/O=himinds/OU=Server/CN=$IP"
-SUBJECT_CLIENT="/C=RU/ST=Russia/L=Moscow/O=himinds/OU=Client/CN=$IP"
+SUBJECT_CA="/C=RU/ST=Russia/L=Moscow/O=himinds/OU=CA/CN=$MOSQUITTO_IP"
+SUBJECT_SERVER="/C=RU/ST=Russia/L=Moscow/O=himinds/OU=Server/CN=$MOSQUITTO_IP"
+SUBJECT_CLIENT="/C=RU/ST=Russia/L=Moscow/O=himinds/OU=Client/CN=$MOSQUITTO_IP"
+SB_NAME="subjectAltName = IP:192.168.10.11"
 DIR=$(pwd)
 
 function generate_CA () {
    echo "$SUBJECT_CA"
-   openssl req -x509 -nodes -sha256 -newkey rsa:2048 -subj "$SUBJECT_CA"  -days 365 -keyout ca.key -out ca.crt
+   openssl req -x509 -nodes -sha256 -newkey rsa:2048 -subj "$SUBJECT_CA" -addext "${SB_NAME}" -days 365 -keyout ca.key -out ca.crt
 }
 
 function generate_server () {
    echo "$SUBJECT_SERVER"
-   openssl req -nodes -sha256 -new -subj "$SUBJECT_SERVER" -keyout server.key -out server.csr
-   openssl x509 -req -sha256 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365
+   openssl req -nodes -sha256 -new -subj "$SUBJECT_SERVER" -keyout server.key -out server.csr -addext "${SB_NAME}"
+   openssl x509 -req -sha256 -in server.csr  -extfile <(printf "${SB_NAME}") -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365
 }
 
 function generate_client () {

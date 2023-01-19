@@ -4,8 +4,10 @@ services:
     image: eclipse-mosquitto:latest
     hostname: mosquitto
     container_name: mosquitto
-    networks:
-      - webproxy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+#    networks:
+#      - webproxy
     ports:
       - "1883:1883"
       - "9001:9001"
@@ -33,10 +35,35 @@ services:
     volumes:
       - ./my-db:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - webproxy
+  python_service:
+    build:
+      context: ./python
+      dockerfile: ./Dockerfile
+      args:
+        - MOSQUITTO_IP=${MOSQUITTO_IP}
+        - MOSQUITTO_USERNAME=${MOSQUITTO_USERNAME}
+        - MOSQUITTO_PASSWORD=${MOSQUITTO_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
+    environment:
+      - MOSQUITTO_IP=${MOSQUITTO_IP}
+      - MOSQUITTO_USERNAME=${MOSQUITTO_USERNAME}
+      - MOSQUITTO_PASSWORD=${MOSQUITTO_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
+    image: python:3.10.4-slim-buster
+    container_name: python
+    restart: always
+    volumes:
+      - ./python/python_mqtt_mysql_service.py:/app/python_mqtt_mysql_service.py
+#    networks:
+#      - webproxy
 # Names our volume
 
-networks:
-  webproxy:
-    driver: bridge
+#networks:
+#  webproxy:
+#    driver: bridge
