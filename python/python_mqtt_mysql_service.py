@@ -15,7 +15,7 @@ MQTT_User = os.getenv('MOSQUITTO_USERNAME')
 MQTT_Pass = os.getenv('MOSQUITTO_PASSWORD')
 
 # MYSQL Settings
-mysqlHost = os.getenv('MYSQL_IP')
+mysqlHost = os.getenv('MOSQUITTO_IP')
 mysqlUser = os.getenv('MYSQL_USER')
 mysqlPassword = os.getenv('MYSQL_ROOT_PASSWORD')
 mysqlDbName = os.getenv('MYSQL_DATABASE')
