@@ -1,3 +1,10 @@
+Сборка тестировалась на Ubuntu 22.04 
+Docker version 20.10.22
+docker-compose version 1.29.2
+docker-py version: 5.0.3
+CPython version: 3.10.6
+OpenSSL version: OpenSSL 3.0.2 15 Mar 2022
+
 1. Установите openssl
 
 2. Узнайте свой внешний ip - адрес (по которому будут подрубатся клиенты), либо для тестирования ip-адрес хоста
