@@ -3,6 +3,7 @@ FROM python:3.10.4-slim-buster
 ARG MOSQUITTO_IP
 ARG MOSQUITTO_USERNAME
 ARG MOSQUITTO_PASSWORD
+ARG MYSQL_IP
 ARG MYSQL_DATABASE
 ARG MYSQL_USER
 ARG MYSQL_ROOT_PASSWORD
@@ -13,7 +14,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     python3-dev \
     default-libmysqlclient-dev \
-    build-essential
+    build-essential \
+    default-mysql-client
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
@@ -23,6 +25,7 @@ COPY . .
 ENV MOSQUITTO_IP=${MOSQUITTO_IP}
 ENV MOSQUITTO_USERNAME=${MOSQUITTO_USERNAME}
 ENV MOSQUITTO_PASSWORD=${MOSQUITTO_PASSWORD}
+ENV MYSQL_IP=${MYSQL_IP}
 ENV MYSQL_DATABASE=${MYSQL_DATABASE}
 ENV MYSQL_USER=${MYSQL_USER}
 ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}

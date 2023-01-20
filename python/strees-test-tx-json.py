@@ -8,9 +8,10 @@
 import signal
 import time
 import json
+import os
 import paho.mqtt.client as paho
 ##edit these settings
-broker="192.168.10.11"
+broker=os.getenv('MOSQUITTO_IP')
 port=1883
 blocks=50 #edit for number of blocks
 messages=200 #edit for messages per block
@@ -44,7 +45,7 @@ client= paho.Client(cname)
 client.connected_flag=False
 client.on_message=on_message
 client.on_connect=on_connect
-client.username_pw_set("mosquitto", "vedroid")
+client.username_pw_set(os.getenv('MOSQUITTO_USERNAME'), os.getenv('MOSQUITTO_PASSWORD'))
 #####
 print("connecting to broker ",broker)
 client.connect(broker,port)#connect
