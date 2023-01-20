@@ -9,11 +9,19 @@
 4. Для тестового сервера получите переменные окружения из файла example.env командой: export $(grep -v '^#' example.env | xargs)
 Для рабочего сервера обязательно измените пароли
 
-5. Запустите: docker-compose up -d
+5. Запустите: docker-compose build для постройки dockerfile
 
-6. Зайдите в консоль докера: docker exec -it mosquitto sh
+6. Запустите: docker-compose up -d
+
+7. Зайдите в консоль докера: docker exec -it mosquitto sh
 Выполните там команду mosquitto_passwd -b /mosquitto/data/pwfile mosquitto vedroid 
 Где mosquitto логин, а vedroid пароль
 Выйдите из консоли
 
-7. Проверьте обновился ли файл /mosquitto/data/pwfile
+8. Проверьте обновился ли файл /mosquitto/data/pwfile
+
+9. Перезапустите docker-compose: 
+docker-compose down 
+docker-compose up -d
+Либо 
+docker-compose restart
