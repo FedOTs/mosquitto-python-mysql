@@ -1,0 +1,3 @@
+mosquitto/config/ca_certificates/
+mosquitto/data/mosquitto.db
+my-db/
