@@ -10,17 +10,18 @@ CPython version: 3.10.6
 
 OpenSSL version: OpenSSL 3.0.2 15 Mar 2022
 
-1. Установите openssl
+1. Установите docker и docker-compose.
 
-2. Узнайте свой внешний ip - адрес (по которому будут подрубатся клиенты), либо для тестирования ip-адрес хоста
+```sudo apt install docker.io```
+```sudo apt install docker-compose```
+
+2. Добавьте пользователю доступ к группе docker и выполните logout
+
+```sudo usermod -aG docker $USER```
+
+3. Узнайте свой внешний ip - адрес (по которому будут подрубатся клиенты), либо для тестирования ip-адрес хоста
 
 Введите данный адрес в файл example.env - MOSQUITTO_IP.
-
-3. Создайте самоподписанный сертификат с помощью команды ```./creat_self_cert.sh```
-
-Проверетье что вы находитесь в дериктории проекта
-
-Сертификаты создадутся по пути $pwd/mosquitto/config/ca_certificates
 
 4. Для тестового сервера получите переменные окружения из файла example.env командой: ```export $(grep -v '^#' example.env | xargs)```
 
@@ -40,7 +41,15 @@ OpenSSL version: OpenSSL 3.0.2 15 Mar 2022
 
 8. Проверьте обновился ли файл /mosquitto/data/pwfile
 
-9. Перезапустите docker-compose: 
+9. Установите openssl
+
+10. Создайте самоподписанный сертификат с помощью команды ```./creat_self_cert.sh```
+
+Проверетье что вы находитесь в дериктории проекта
+
+Сертификаты создадутся по пути $pwd/mosquitto/config/ca_certificates
+
+11. Перезапустите docker-compose: 
 
 ```docker-compose down``` 
 
