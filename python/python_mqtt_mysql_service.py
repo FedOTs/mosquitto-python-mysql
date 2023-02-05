@@ -5,6 +5,7 @@ import ssl
 import json 
 import os
 import sys
+import logging
 
 # MQTT Settings
 MQTT_Broker = os.getenv('MOSQUITTO_IP')
