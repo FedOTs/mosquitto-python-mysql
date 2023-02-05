@@ -39,9 +39,19 @@ OpenSSL version: OpenSSL 3.0.2 15 Mar 2022
 
 6. Запустите: ```docker-compose build``` для постройки dockerfile
 
-7. Запустите: ```docker-compose up -d```
+7. Запустите: ```docker-compose up```
 
-8. Зайдите в консоль докера: ```docker exec -it mosquitto sh```
+Дождитесь запуска всех служб, обязательно создания бд MySql затем остановите docker-compose т.к. на данный момент не настроены ssl-сертификаты
+
+```docker-compose down```
+
+8. Установите openssl (если он не установлен) и создайте самоподписанный сертификат с помощью команды ```./creat_self_cert.sh```
+
+Проверетье что вы находитесь в дериктории проекта
+
+Сертификаты создадутся по пути $pwd/mosquitto/config/ca_certificates
+
+9. Запустите: ```docker-compose up -d``` и зайдите в консоль докера: ```docker exec -it mosquitto sh```
 
 Выполните там команду ```mosquitto_passwd -b /mosquitto/data/pwfile mosquitto vedroid```
 
@@ -49,17 +59,9 @@ OpenSSL version: OpenSSL 3.0.2 15 Mar 2022
 
 Выйдите из консоли
 
-9. Проверьте обновился ли файл /mosquitto/data/pwfile
+10. Проверьте обновился ли файл /mosquitto/data/pwfile
 
-10. Установите openssl
-
-11. Создайте самоподписанный сертификат с помощью команды ```./creat_self_cert.sh```
-
-Проверетье что вы находитесь в дериктории проекта
-
-Сертификаты создадутся по пути $pwd/mosquitto/config/ca_certificates
-
-12. Перезапустите docker-compose: 
+11. Перезапустите docker-compose: 
 
 ```docker-compose down``` 
 
