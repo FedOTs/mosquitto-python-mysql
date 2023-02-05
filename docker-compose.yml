@@ -37,9 +37,9 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - webproxy
-  python_service:
+  python_mqtt_service:
     build:
-      context: ./python
+      context: ./python/mqtt_mysql_service
       dockerfile: ./Dockerfile
       args:
         - MOSQUITTO_IP=${MOSQUITTO_IP}
@@ -60,10 +60,41 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
     image: python:3.10.4-slim-buster
-    container_name: python
+    container_name: python_mqtt_mysql_service
     restart: always
     volumes:
-      - ./python/python_mqtt_mysql_service.py:/app/python_mqtt_mysql_service.py
+      - ./python/mqtt_mysql_service:/app
+    networks:
+      - webproxy
+  python_api_service:
+    build:
+      context: ./python/python_api_service
+      dockerfile: ./Dockerfile
+      args:
+        - MOSQUITTO_IP=${MOSQUITTO_IP}
+        - MOSQUITTO_USERNAME=${MOSQUITTO_USERNAME}
+        - MOSQUITTO_PASSWORD=${MOSQUITTO_PASSWORD}
+        - MYSQL_IP=db
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
+    environment:
+      - MOSQUITTO_IP=${MOSQUITTO_IP}
+      - MOSQUITTO_USERNAME=${MOSQUITTO_USERNAME}
+      - MOSQUITTO_PASSWORD=${MOSQUITTO_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_IP=db
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
+    image: python:3.10.9-slim-buster
+    container_name: python_api_service
+    restart: always
+    ports:
+    - '5000:5000'
+    volumes:
+      - ./python/python_api_service:/app
     networks:
       - webproxy
 # Names our volume
