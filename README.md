@@ -10,8 +10,8 @@ CPython version: 3.10.6
 
 OpenSSL version: OpenSSL 3.0.2 15 Mar 2022
 
-1. Установите docker и docker-compose.
-
+1. Обновите apt и затем установите docker и docker-compose.
+```sudo apt update```
 ```sudo apt install docker.io```
 ```sudo apt install docker-compose```
 
@@ -19,19 +19,29 @@ OpenSSL version: OpenSSL 3.0.2 15 Mar 2022
 
 ```sudo usermod -aG docker $USER```
 
-3. Узнайте свой внешний ip - адрес (по которому будут подрубатся клиенты), либо для тестирования ip-адрес хоста
+3. Установите git если он не установлен
+
+```sudo apt install git```
+
+Клонируйте код из репозитория в домашнюю папку пользователя
+
+```cd ~/```
+
+```git clone https://github.com/FedOTs/mosquitto-python-mysql.git```
+
+4. Узнайте свой внешний ip - адрес (по которому будут подрубатся клиенты), либо для тестирования ip-адрес хоста
 
 Введите данный адрес в файл example.env - MOSQUITTO_IP.
 
-4. Для тестового сервера получите переменные окружения из файла example.env командой: ```export $(grep -v '^#' example.env | xargs)```
+5. Для тестового сервера получите переменные окружения из файла example.env командой: ```export $(grep -v '^#' example.env | xargs)```
 
 Для рабочего сервера обязательно измените пароли
 
-5. Запустите: ```docker-compose build``` для постройки dockerfile
+6. Запустите: ```docker-compose build``` для постройки dockerfile
 
-6. Запустите: ```docker-compose up -d```
+7. Запустите: ```docker-compose up -d```
 
-7. Зайдите в консоль докера: ```docker exec -it mosquitto sh```
+8. Зайдите в консоль докера: ```docker exec -it mosquitto sh```
 
 Выполните там команду ```mosquitto_passwd -b /mosquitto/data/pwfile mosquitto vedroid```
 
@@ -39,17 +49,17 @@ OpenSSL version: OpenSSL 3.0.2 15 Mar 2022
 
 Выйдите из консоли
 
-8. Проверьте обновился ли файл /mosquitto/data/pwfile
+9. Проверьте обновился ли файл /mosquitto/data/pwfile
 
-9. Установите openssl
+10. Установите openssl
 
-10. Создайте самоподписанный сертификат с помощью команды ```./creat_self_cert.sh```
+11. Создайте самоподписанный сертификат с помощью команды ```./creat_self_cert.sh```
 
 Проверетье что вы находитесь в дериктории проекта
 
 Сертификаты создадутся по пути $pwd/mosquitto/config/ca_certificates
 
-11. Перезапустите docker-compose: 
+12. Перезапустите docker-compose: 
 
 ```docker-compose down``` 
 
