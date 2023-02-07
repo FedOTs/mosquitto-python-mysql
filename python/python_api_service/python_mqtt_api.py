@@ -67,7 +67,7 @@ def jsonCompare(payload, changes):
             for key_, _ in payload.items():
                 if keyheader == key_:
                     for key, value in valueheader.items():
-                        data[keyheader] = {key, value}
+                        data[keyheader] = {key: value}
         elif keyheader == "i2c":
             for ob in valueheader:
                 for ob_ in payload[keyheader]:

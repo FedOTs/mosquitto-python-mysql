@@ -11,7 +11,7 @@ import logging
 MQTT_Broker = os.getenv('MOSQUITTO_IP')
 MQTT_Port = 1883
 Keep_Alive_Interval = 60
-MQTT_Topic = [("devices/#", 0)]
+MQTT_Topic = [("devices/get/#", 0)]
 MQTT_User = os.getenv('MOSQUITTO_USERNAME')
 MQTT_Pass = os.getenv('MOSQUITTO_PASSWORD')
 
