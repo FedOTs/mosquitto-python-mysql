@@ -2,6 +2,7 @@
 
 from flask import Flask
 from flask import request
+from flask_cors import CORS
 
 import paho.mqtt.client as mqtt
 import ssl
@@ -21,6 +22,7 @@ MQTT_Pass = os.getenv('MOSQUITTO_PASSWORD')
 TOKEN = os.getenv('API_TOKEN')
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/publish", methods=["POST"])
 def publish():
