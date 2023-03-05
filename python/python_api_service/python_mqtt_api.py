@@ -64,6 +64,8 @@ def jsonCompare(payload, changes):
     data = {}
     i2clst = []
     rs485lst = []
+    triggerList = []
+    shedulList = []
     for keyheader, valueheader in changes.items():
         if keyheader in ["relays","analog_ports"]:
             for key_, _ in payload.items():
@@ -80,9 +82,30 @@ def jsonCompare(payload, changes):
                 for ob_ in payload[keyheader]:
                     if ob["id"] == ob_["id"]:
                         rs485lst.append(ob)
+        elif keyheader == "trigger":
+            for ob in valueheader:
+                if keyheader in payload.keys():
+                    for ob_ in payload[keyheader]:
+                        triggerList.append(ob)
+                else:
+                    for ob_ in changes[keyheader]:
+                        triggerList.append(ob_)
+        elif keyheader == "sheduler":
+            for ob in valueheader:
+                if keyheader in payload.keys():
+                    for ob_ in payload[keyheader]:
+                        shedulList.append(ob)
+                else:
+                    for ob_ in changes[keyheader]:
+                        shedulList.append(ob_)
+            
     if len(i2clst) > 0:
         data["i2c"] = i2clst
     if len(rs485lst) > 0:
         data["rs485"] = i2clst
+    if len(triggerList) > 0:
+        data["trigger"] = triggerList
+    if len(shedulList) > 0:
+        data["sheduler"] = shedulList
 
     return data
